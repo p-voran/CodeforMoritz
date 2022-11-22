@@ -1,0 +1,3 @@
+tiefe 11:
+600 sec for set operations
+1158 seconds for calculating
