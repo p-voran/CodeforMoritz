@@ -23,7 +23,7 @@ def find_hole_positions(d, num_holes):
   return  place_hole([1]*(d), num_holes, 0, [], [])
 
 
-_, sterne = find_hole_positions(3,1)
+_, sterne = find_hole_positions(3,2)
 print(sterne)
 # calculate d-cube
 d_cube = list(itertools.product([0, 1], repeat=3))
