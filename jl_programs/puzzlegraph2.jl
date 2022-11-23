@@ -1,4 +1,7 @@
 
+using StaticArrays
+
+
 #starting configurations
 start42 = [Int8[0,0,0,1,0,2,3,4,0,5,6,7,8,9,10,11]]
 start43 = [Int8[0,0,0,1,0,2,3,4,0,0,0,0,0,0,0,5]]
@@ -8,7 +11,6 @@ start54 = [Int8[1,2,3,0,4,0,0,0,5,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 sparse_start31 = [Int8[0,1,2,3,4,5,6]]
 sparse_start32 = [Int8[0,1,2,4]]
 sparse_start43 = [Int8[0, 1, 2, 4, 8]]
-sparse_start54 = [Int8[0, 1, 2, 4, 8, 16]]
 sparse_start42_4tiles= [Int8[11,1,7,4]]
 sparse_start42_5tiles= [Int8[0,1,2,4,8]]
 sparse_start42_6tiles= [Int8[0,1,2,4,8,15]]
@@ -28,9 +30,9 @@ five_cube = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 1], [0, 0, 0, 1, 0], [0, 0, 0, 1, 1],
 
 function calculateConfigurations(start, facecollection)
     #res is the collection of all configurations in the component
-    res = copy(start)
-    to_do = copy(start)
-    previous = copy(start)
+    res::Vector{MArray{6, Int8}} = copy(start)
+    to_do::Vector{MArray{6, Int8}} = copy(start)
+    previous::Vector{MArray{6, Int8}} = copy(start)
     counter = 0
     while true
         if length(to_do) == 0
@@ -44,7 +46,7 @@ function calculateConfigurations(start, facecollection)
         println("Time to calculate set_operations:")
         res = @time set_operations(to_do, res, previous)
 
-        previous = @time copy(to_do)
+        previous = copy(to_do)
         #to_do = setdiff(to_do, res)
         #res = union(res, to_do)
         println("Tiefe "*string(counter) * " wurde erreicht. \nAuf dieser Stufe gibt es "* string(length(to_do))* " Konfigurationen. \nInsgesamt wurden " * string(length(res)) * " Konfigurationen berechnet.\n")
@@ -62,8 +64,7 @@ function set_operations(to_do, res, previous)
 end
 
 function calculate_one_step(previous, facecollection)
-    next_step = [Int8[]]
-    setdiff!(next_step, [[]])
+    next_step::Vector{Vector{Int8}} = []
     if length(previous) == 0
         return next_step
     end
@@ -101,4 +102,4 @@ function change_configuration(configuration, label, corner)
     return dummy
 end
 
-test = @time calculateConfigurations(sparse_start42_7tiles, facecollection42)
+test = @time calculateConfigurations(sparse_start54, facecollection54)
