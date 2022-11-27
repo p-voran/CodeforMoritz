@@ -9,12 +9,13 @@ start54 = [Int8[1,2,3,0,4,0,0,0,5,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
 #sparse starting configurations
 sparse_start31 = [Int8[0,1,2,3,4,5,6]]
-sparse_start32 = [Int8[0,1,2,4]]
-sparse_start43 = [Int8[0, 1, 2, 4, 8]]
+sparse_start32 = [SVector{4, Int8}(0,1,2,4)]
+sparse_start43 = [SVector{5, Int8}(0, 1, 2, 4, 8)]
+sparse_start54 = [SVector{6, Int8}(0, 1, 2, 4, 8, 16)]
 sparse_start42_4tiles= [Int8[11,1,7,4]]
 sparse_start42_5tiles= [Int8[0,1,2,4,8]]
 sparse_start42_6tiles= [Int8[0,1,2,4,8,15]]
-sparse_start42_7tiles= [Int8[0,1,2,4,8,14,15]]
+sparse_start42_7tiles= [SVector{7, Int8}(0,1,2,4,8,14,15)]
 
 #facecollections
 facecollection31 = [[[1], [2], [4]], [[0], [3], [5]], [[3], [0], [6]], [[2], [1], [7]], [[5], [6], [0]], [[4], [7], [1]], [[7], [4], [2]], [[6], [5], [3]]]
@@ -30,13 +31,13 @@ five_cube = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 1], [0, 0, 0, 1, 0], [0, 0, 0, 1, 1],
 
 function calculateConfigurations(start, facecollection)
     #res is the collection of all configurations in the component
-    res::Vector{MArray{6, Int8}} = copy(start)
-    to_do::Vector{MArray{6, Int8}} = copy(start)
-    previous::Vector{MArray{6, Int8}} = copy(start)
+    res::Vector{SVector{7, Int8}} = copy(start)
+    to_do::Vector{SVector{7, Int8}} = copy(start)
+    previous::Vector{SVector{7, Int8}} = copy(start)
     counter = 0
     while true
         if length(to_do) == 0
-            println("Maximale Tiefe erreicht.")
+            println("Maximale Tiefe = "*string(counter - 1) * "erreicht.")
             break
         end
         counter += 1
@@ -64,7 +65,7 @@ function set_operations(to_do, res, previous)
 end
 
 function calculate_one_step(previous, facecollection)
-    next_step::Vector{Vector{Int8}} = []
+    next_step::Vector{SVector{7, Int8}} = []
     if length(previous) == 0
         return next_step
     end
@@ -76,7 +77,7 @@ function calculate_one_step(previous, facecollection)
                 if is_k_face_empty(configuration, k_face)
                     #add the 2**k-1 slides possible on that k_face
                     for corner in k_face
-                        push!(next_step, change_configuration(configuration, label, corner))
+                        push!(next_step, SVector{7, Int8}(setindex!([x for x in configuration], corner, label)))
                     end
                 end
             end
@@ -97,9 +98,18 @@ function is_k_face_empty(configuration, k_face)
 end
 
 function change_configuration(configuration, label, corner)
-    dummy = copy(configuration)
-    dummy[label] = corner
-    return dummy
+    return SVector{7, Int8}([help_function(i, x, label, corner) for (i,x) in enumerate(configuration)])
 end
 
-test = @time calculateConfigurations(sparse_start54, facecollection54)
+function change_configuration_alt_1(configuration, label, corner)
+    return SVector{7, Int8}(setindex!([x for x in configuration], corner, label))
+end
+
+function help_function(i,x, label, corner)
+    if i == label
+        return corner
+    end
+    return x
+end
+
+test = @time calculateConfigurations(sparse_start42_7tiles, facecollection42)
