@@ -3,20 +3,20 @@ using StaticArrays
 
 
 #starting configurations
-start42 = [Int8[0,0,0,1,0,2,3,4,0,5,6,7,8,9,10,11]]
-start43 = [Int8[0,0,0,1,0,2,3,4,0,0,0,0,0,0,0,5]]
-start54 = [Int8[1,2,3,0,4,0,0,0,5,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
+start42 = [UInt8[0,0,0,1,0,2,3,4,0,5,6,7,8,9,10,11]]
+start43 = [UInt8[0,0,0,1,0,2,3,4,0,0,0,0,0,0,0,5]]
+start54 = [UInt8[1,2,3,0,4,0,0,0,5,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
 
 #sparse starting configurations
-sparse_start31 = [Int8[0,1,2,3,4,5,6]]
-sparse_start32 = [SVector{4, Int8}(0,1,2,4)]
-sparse_start43 = [SVector{5, Int8}(0, 1, 2, 4, 8)]
-sparse_start54 = [SVector{6, Int8}(0, 1, 2, 4, 8, 16)]
-sparse_start42_4tiles= [Int8[11,1,7,4]]
-sparse_start42_5tiles= [Int8[0,1,2,4,8]]
-sparse_start42_6tiles= [Int8[0,1,2,4,8,15]]
-sparse_start42_7tiles= [SVector{7, Int8}(0,1,2,4,8,14,15)]
-sparse_start42_8tiles= [SVector{8, Int8}(0,1,2,4,8,13,14,15)]
+sparse_start31 = [UInt8[0,1,2,3,4,5,6]]
+sparse_start32 = [SVector{4, UInt8}(0,1,2,4)]
+sparse_start43 = [SVector{5, UInt8}(0, 1, 2, 4, 8)]
+sparse_start54 = [SVector{6, UInt8}(0, 1, 2, 4, 8, 16)]
+sparse_start42_4tiles= [UInt8[11,1,7,4]]
+sparse_start42_5tiles= [UInt8[0,1,2,4,8]]
+sparse_start42_6tiles= [UInt8[0,1,2,4,8,15]]
+sparse_start42_7tiles= [SVector{7, UInt8}(0,1,2,4,8,14,15)]
+sparse_start42_8tiles= [SVector{8, UInt8}(0,1,2,4,8,13,14,15)]
 
 #facecollections
 facecollection31 = [[[1], [2], [4]], [[0], [3], [5]], [[3], [0], [6]], [[2], [1], [7]], [[5], [6], [0]], [[4], [7], [1]], [[7], [4], [2]], [[6], [5], [3]]]
@@ -32,9 +32,9 @@ five_cube = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 1], [0, 0, 0, 1, 0], [0, 0, 0, 1, 1],
 
 function calculateConfigurations(start, facecollection)
     #res is the collection of all configurations in the component
-    res::Vector{SVector{8, Int8}} = copy(start)
-    to_do::Vector{SVector{8, Int8}} = copy(start)
-    previous::Vector{SVector{8, Int8}} = copy(start)
+    res::Vector{SVector{6, UInt8}} = copy(start)
+    to_do::Vector{SVector{6, UInt8}} = copy(start)
+    previous::Vector{SVector{6, UInt8}} = copy(start)
     counter = 0
     while true
         if length(to_do) == 0
@@ -66,7 +66,7 @@ function set_operations(to_do, res, previous)
 end
 
 function calculate_one_step(previous, facecollection)
-    next_step::Vector{SVector{8, Int8}} = []
+    next_step::Vector{SVector{6, UInt8}} = []
     if length(previous) == 0
         return next_step
     end
@@ -78,7 +78,7 @@ function calculate_one_step(previous, facecollection)
                 if is_k_face_empty(configuration, k_face)
                     #add the 2**k-1 slides possible on that k_face
                     for corner in k_face
-                        push!(next_step, SVector{8, Int8}(setindex!([x for x in configuration], corner, label)))
+                        push!(next_step, SVector{6, UInt8}(setindex!([x for x in configuration], corner, label)))
                     end
                 end
             end
@@ -99,7 +99,7 @@ function is_k_face_empty(configuration, k_face)
 end
 
 function change_configuration(configuration, label, corner)
-    return SVector{8, Int8}([help_function(i, x, label, corner) for (i,x) in enumerate(configuration)])
+    return SVector{6, UInt8}([help_function(i, x, label, corner) for (i,x) in enumerate(configuration)])
 end
 
 
@@ -111,7 +111,11 @@ function help_function(i,x, label, corner)
 end
 
 function change_configuration_alt_1(configuration, label, corner)
-    return SVector{8, Int8}(setindex!([x for x in configuration], corner, label))
+    return SVector{6, UInt8}(setindex!([x for x in configuration], corner, label))
 end
 
-test = @time calculateConfigurations(sparse_start42_8tiles, facecollection42)
+test = @time calculateConfigurations(sparse_start43, facecollection43)
+
+if SVector{6, UInt8}(1, 0, 2, 4, 8, 16) in test
+    println("2-Cycle was found!")
+end
