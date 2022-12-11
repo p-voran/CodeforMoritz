@@ -1,7 +1,10 @@
 
-using StaticArrays
+using Distributed
 
+const worker_count = 7
+addprocs(worker_count)
 
+@everywhere using StaticArrays
 #starting configurations
 start42 = [UInt8[0,0,0,1,0,2,3,4,0,5,6,7,8,9,10,11]]
 start43 = [UInt8[0,0,0,1,0,2,3,4,0,0,0,0,0,0,0,5]]
@@ -42,13 +45,38 @@ function calculateConfigurations(start, facecollection)
             break
         end
         counter += 1
-        #println("Time to calculate one_step:")
-        to_do = calculate_one_step(to_do,  facecollection)
+        if length(to_do) < worker_count
+            println("Time to calculate one_step:")
+            to_do = @time calculate_one_step(to_do,  facecollection)
         
-        #println("Time to calculate set_operations:")
-        res = set_operations(to_do, res, previous)
+            println("Time to calculate set_operations:")
+            res = @time set_operations(to_do, res, previous)
+        
+            previous = copy(to_do)
+        else
+            #split to_do in worker_count parts for parallel computing
+            println("start parallel split")
+            split_to_do = []
+            work_lenght = floor(Integer, length(to_do)/worker_count)
+            for i in range(1, worker_count - 1)
+                push!(split_to_do, to_do[((i-1)*work_lenght+1):(i*work_lenght)])
+            end
+            push!(split_to_do, to_do[(worker_count-1)*work_lenght+1:end])
+            split_facecollection = repeat([facecollection], worker_count, 1)
 
-        previous = copy(to_do)
+            println("start parallel step")
+            #Calculate next step and perform set operations parallel
+            split_to_do = pmap(parallel_calculate_one_step ,split_to_do, split_facecollection)
+
+            to_do = []
+            for partial_to_do in split_to_do
+                to_do = [to_do; partial_to_do]
+            end
+
+            res = set_operations(to_do, res, previous)
+            
+            previous = copy(to_do)
+        end
         #to_do = setdiff(to_do, res)
         #res = union(res, to_do)
         println("Tiefe "*string(counter) * " wurde erreicht. \nAuf dieser Stufe gibt es "* string(length(to_do))* " Konfigurationen. \nInsgesamt wurden " * string(length(res)) * " Konfigurationen berechnet.\n")
@@ -63,6 +91,37 @@ function set_operations(to_do, res, previous)
     setdiff!(to_do, previous)
     setdiff!(to_do, res)
     return [res; to_do]
+end
+
+@everywhere function parallel_set_diff(to_do, res, previous)
+    #to_do = setdiff(to_do, res)
+    #res = union(res, to_do)
+    #return to_do, res
+    setdiff!(to_do, previous)
+    setdiff!(to_do, res)
+    return to_do
+end
+
+@everywhere function parallel_calculate_one_step(previous, facecollection)
+    next_step::Vector{SVector{6, UInt8}} = []
+    if length(previous) == 0
+        return next_step
+    end
+
+    for configuration in previous
+        for (label, position) in enumerate(configuration)
+            #iterate over all faces the labeled tile is in
+            for k_face in facecollection[position+1]
+                if is_k_face_empty(configuration, k_face)
+                    #add the 2**k-1 slides possible on that k_face
+                    for corner in k_face
+                        push!(next_step, SVector{6, UInt8}(setindex!([x for x in configuration], corner, label)))
+                    end
+                end
+            end
+        end
+    end
+    return next_step
 end
 
 function calculate_one_step(previous, facecollection)
@@ -87,7 +146,7 @@ function calculate_one_step(previous, facecollection)
     return next_step
 end
 
-function is_k_face_empty(configuration, k_face)
+@everywhere function is_k_face_empty(configuration, k_face)
     my_bool = true
     for corner in k_face
         if corner in configuration
@@ -102,7 +161,6 @@ function change_configuration(configuration, label, corner)
     return SVector{6, UInt8}([help_function(i, x, label, corner) for (i,x) in enumerate(configuration)])
 end
 
-
 function help_function(i,x, label, corner)
     if i == label
         return corner
@@ -116,6 +174,6 @@ end
 
 test = @time calculateConfigurations(sparse_start54, facecollection54)
 
-if SVector{6, UInt8}(1, 0, 2, 4, 8, 16) in test
+if SVector{5, UInt8}(1, 0, 2, 4, 8) in test
     println("2-Cycle was found!")
 end

@@ -23,10 +23,10 @@ def find_hole_positions(d, num_holes):
   return  place_hole([1]*(d), num_holes, 0, [], [])
 
 
-_, sterne = find_hole_positions(3,1)
+_, sterne = find_hole_positions(6,4)
 print(sterne)
 # calculate d-cube
-d_cube = list(itertools.product([0, 1], repeat=3))
+d_cube = list(itertools.product([0, 1], repeat=6))
 listcube =[]
 for item in d_cube:
   listcube.append(list(item))
@@ -34,7 +34,6 @@ print(listcube)
 # calculate the k-faces each corner is in
 facecollection = []
 for corner in d_cube:
-    k_faces = []
     for item in sterne:
         k_face = []
         for corner2 in d_cube:
@@ -42,9 +41,12 @@ for corner in d_cube:
             for i in item:
                 if corner2[i] != corner[i]:
                     b = False
-            if b and d_cube.index(corner) != d_cube.index(corner2):
+            if b:
                 k_face.append(d_cube.index(corner2))
-        k_faces += [k_face]
-    facecollection += [k_faces]
+        facecollection.append(tuple(k_face))
+
+facecollection = list(set(facecollection))
+
 print('face collection was created.')
+print(len(facecollection))
 print(facecollection)

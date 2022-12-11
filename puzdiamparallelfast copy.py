@@ -73,8 +73,8 @@ def calculateConfigurations(start, d ,k):
             my_queue = multiprocessing.Queue()
             procs = []
             next_step = set(())
+            chunk_num = int(math.ceil(len(to_do)/ 7))
             for i in range(7):
-                chunk_num = int(math.ceil(len(to_do)/ 7))
                 chunk = to_do[chunk_num*i:(chunk_num)*(i+1)]
                 proc = multiprocessing.Process(target = mp_one_step, args = (my_queue, chunk, facecollection))
                 procs.append(proc)
