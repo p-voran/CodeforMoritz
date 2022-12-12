@@ -1,6 +1,8 @@
 
 using StaticArrays
+#Output file
 
+output_file = open("output_file.text", "w")
 
 #starting configurations
 start42 = [UInt8[0,0,0,1,0,2,3,4,0,5,6,7,8,9,10,11]]
@@ -38,7 +40,7 @@ function calculateConfigurations(start, facecollection)
     counter = 0
     while true
         if length(to_do) == 0
-            println("Maximale Tiefe = "*string(counter - 1) * "erreicht.")
+            write(output_file, "Maximale Tiefe = "*string(counter - 1) * "erreicht.")
             break
         end
         counter += 1
@@ -51,7 +53,7 @@ function calculateConfigurations(start, facecollection)
         previous = copy(to_do)
         #to_do = setdiff(to_do, res)
         #res = union(res, to_do)
-        println("Tiefe "*string(counter) * " wurde erreicht. \nAuf dieser Stufe gibt es "* string(length(to_do))* " Konfigurationen. \nInsgesamt wurden " * string(length(res)) * " Konfigurationen berechnet.\n")
+        write(output_file ,"Tiefe "*string(counter) * " wurde erreicht. \nAuf dieser Stufe gibt es "* string(length(to_do))* " Konfigurationen. \nInsgesamt wurden " * string(length(res)) * " Konfigurationen berechnet.\n")
     end
     return res
 end
@@ -96,6 +98,7 @@ function is_k_face_empty(configuration, k_face)
     return my_bool
 end
 
+#=
 function change_configuration(configuration, label, corner)
     return SVector{6, UInt8}([help_function(i, x, label, corner) for (i,x) in enumerate(configuration)])
 end
@@ -111,9 +114,11 @@ end
 function change_configuration_alt_1(configuration, label, corner)
     return SVector{6, UInt8}(setindex!([x for x in configuration], corner, label))
 end
+=#
 
 test = @time calculateConfigurations(sparse_start54, facecollection54)
 
 if SVector{6, UInt8}(1, 0, 2, 4, 8, 16) in test
-    println("2-Cycle was found!")
+    write(output_file, "2-Cycle was found!")
 end
+close(output_file)

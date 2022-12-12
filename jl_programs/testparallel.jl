@@ -1,8 +1,6 @@
 using Distributed
 using StaticArrays
-
-
-
-
-a  = SVector{3,UInt8}(1,2,3)
-println(a)
+arr = SVector{3, UInt8}(1,2,3) 
+file = open("testoutput.txt", "w")
+write(file, arr)
+close(file)
