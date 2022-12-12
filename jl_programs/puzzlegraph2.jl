@@ -57,9 +57,7 @@ function calculateConfigurations(start, facecollection)
 end
 
 function set_operations(to_do, res, previous)
-    #to_do = setdiff(to_do, res)
-    #res = union(res, to_do)
-    #return to_do, res
+    #also makes to_do unique, super important.
     setdiff!(to_do, previous)
     setdiff!(to_do, res)
     return [res; to_do]
