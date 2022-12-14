@@ -85,3 +85,4 @@ if SVector{11, UInt8}(1,0,2,4,8,10,11,12,13,14,15) in test
     write(output_file, "2-Cycle was found!")
 end
 close(output_file)
+println("Program 11 tiles terminated")
