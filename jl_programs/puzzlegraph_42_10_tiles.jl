@@ -17,7 +17,6 @@ function calculateConfigurations(start, facecollection)
     #res is the collection of all configurations in the component
     res::Vector{SVector{10, UInt8}} = copy(start)
     to_do::Vector{SVector{10, UInt8}} = copy(start)
-    previous::Vector{SVector{10, UInt8}} = copy(start)
     counter = 0
     while true
         if length(to_do) == 0
@@ -29,9 +28,7 @@ function calculateConfigurations(start, facecollection)
         to_do = calculate_one_step(to_do,  facecollection)
         
         #println("Time to calculate set_operations:")
-        res = set_operations(to_do, res, previous)
-
-        previous = copy(to_do)
+        res = set_operations(to_do, res)
         #to_do = setdiff(to_do, res)
         #res = union(res, to_do)
         write(output_file ,"Tiefe "*string(counter) * " wurde erreicht. \nAuf dieser Stufe gibt es "* string(length(to_do))* " Konfigurationen. \nInsgesamt wurden " * string(length(res)) * " Konfigurationen berechnet.\n")
@@ -39,7 +36,7 @@ function calculateConfigurations(start, facecollection)
     return res
 end
 
-function set_operations(to_do, res, previous)
+function set_operations(to_do, res)
     #also makes to_do unique, super important.
     setdiff!(to_do, previous)
     setdiff!(to_do, res)
