@@ -15,10 +15,15 @@ sparse_start32 = [SVector{4, UInt8}(0,1,2,4)]
 sparse_start43 = [SVector{5, UInt8}(0, 1, 2, 4, 8)]
 sparse_start54 = [SVector{6, UInt8}(0, 1, 2, 4, 8, 16)]
 sparse_start42_4tiles= [UInt8[11,1,7,4]]
-sparse_start42_5tiles= [UInt8[0,1,2,4,8]]
-sparse_start42_6tiles= [UInt8[0,1,2,4,8,15]]
+sparse_start42_5tiles= [SVector{5, UInt8}(0,1,2,4,8)]
+sparse_start42_6tiles= [SVector{6, UInt8}(0,1,2,4,8,15)]
 sparse_start42_7tiles= [SVector{7, UInt8}(0,1,2,4,8,14,15)]
 sparse_start42_8tiles= [SVector{8, UInt8}(0,1,2,4,8,13,14,15)]
+sparse_start43_2tiles = [SVector{2, UInt8}(0, 15)]
+sparse_start43_3tiles = [SVector{3, UInt8}(0,1,2)]
+sparse_start43_4tiles = [SVector{4, UInt8}(0,1,2,7)]
+sparse_start43_5tiles = [SVector{5, UInt8}(0,1,7,11,15)]
+sparse_start43_6tiles = [SVector{6, UInt8}(0,1,2,3,7,8)]
 
 #facecollections
 facecollection31 = [[[1], [2], [4]], [[0], [3], [5]], [[3], [0], [6]], [[2], [1], [7]], [[5], [6], [0]], [[4], [7], [1]], [[7], [4], [2]], [[6], [5], [3]]]
@@ -32,6 +37,8 @@ facecollection54 = [[[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], [1, 2,
 four_cube = [[0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0], [0, 0, 1, 1], [0, 1, 0, 0], [0, 1, 0, 1], [0, 1, 1, 0], [0, 1, 1, 1], [1, 0, 0, 0], [1, 0, 0, 1], [1, 0, 1, 0], [1, 0, 1, 1], [1, 1, 0, 0], [1, 1, 0, 1], [1, 1, 1, 0], [1, 1, 1, 1]]
 five_cube = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 1], [0, 0, 0, 1, 0], [0, 0, 0, 1, 1], [0, 0, 1, 0, 0], [0, 0, 1, 0, 1], [0, 0, 1, 1, 0], [0, 0, 1, 1, 1], [0, 1, 0, 0, 0], [0, 1, 0, 0, 1], [0, 1, 0, 1, 0], [0, 1, 0, 1, 1], [0, 1, 1, 0, 0], [0, 1, 1, 0, 1], [0, 1, 1, 1, 0], [0, 1, 1, 1, 1], [1, 0, 0, 0, 0], [1, 0, 0, 0, 1], [1, 0, 0, 1, 0], [1, 0, 0, 1, 1], [1, 0, 1, 0, 0], [1, 0, 1, 0, 1], [1, 0, 1, 1, 0], [1, 0, 1, 1, 1], [1, 1, 0, 0, 0], [1, 1, 0, 0, 1], [1, 1, 0, 1, 0], [1, 1, 0, 1, 1], [1, 1, 1, 0, 0], [1, 1, 1, 0, 1], [1, 1, 1, 1, 0], [1, 1, 1, 1, 1]]
 
+
+
 function calculateConfigurations(start, facecollection)
     #res is the collection of all configurations in the component
     res::Vector{SVector{6, UInt8}} = copy(start)
@@ -40,7 +47,8 @@ function calculateConfigurations(start, facecollection)
     counter = 0
     while true
         if length(to_do) == 0
-            write(output_file, "Maximale Tiefe = "*string(counter - 1) * "erreicht.")
+            #write(output_file, "Maximale Tiefe = "*string(counter - 1) * "erreicht.")
+            print("Maximale Tiefe = "*string(counter - 1) * "erreicht.")
             break
         end
         counter += 1
@@ -116,7 +124,8 @@ function change_configuration_alt_1(configuration, label, corner)
 end
 =#
 
-test = @time calculateConfigurations(sparse_start54, facecollection54)
+test = @time calculateConfigurations(sparse_start43_6tiles, facecollection43)
+
 
 if SVector{6, UInt8}(1, 0, 2, 4, 8, 16) in test
     write(output_file, "2-Cycle was found!")
