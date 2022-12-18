@@ -1,0 +1,139 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Fonts/RobotoCondensed-Bold.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Menu.gd" type="Script" id=2]
+[ext_resource path="res://Fonts/new_dynamicfont.tres" type="DynamicFont" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 20
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 1 )
+
+[node name="Menu" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 1368.0
+margin_bottom = 768.0
+color = Color( 0.128174, 0.585938, 0, 0.588235 )
+
+[node name="Label" type="Label" parent="."]
+margin_right = 1360.0
+margin_bottom = 128.0
+custom_fonts/font = SubResource( 1 )
+text = "Cubical Sliding
+New Game:"
+align = 1
+valign = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_right = 1368.0
+margin_bottom = 768.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer"]
+margin_left = 435.0
+margin_top = 313.0
+margin_right = 932.0
+margin_bottom = 454.0
+size_flags_vertical = 3
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="CenterContainer/HBoxContainer"]
+margin_right = 66.0
+margin_bottom = 141.0
+
+[node name="2d Button" type="Button" parent="CenterContainer/HBoxContainer/VBoxContainer3"]
+margin_right = 66.0
+margin_bottom = 20.0
+text = "2D thing"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer/HBoxContainer"]
+margin_left = 70.0
+margin_right = 193.0
+margin_bottom = 141.0
+
+[node name="Cube (2) easy" type="Button" parent="CenterContainer/HBoxContainer/VBoxContainer2"]
+margin_right = 123.0
+margin_bottom = 25.0
+custom_fonts/font = SubResource( 2 )
+text = "Cube (2) easy"
+
+[node name="Cube (2) medium" type="Button" parent="CenterContainer/HBoxContainer/VBoxContainer2"]
+margin_top = 29.0
+margin_right = 123.0
+margin_bottom = 54.0
+custom_fonts/font = SubResource( 2 )
+text = "Cube (2) medium"
+
+[node name="Cube (2) hard" type="Button" parent="CenterContainer/HBoxContainer/VBoxContainer2"]
+margin_top = 58.0
+margin_right = 123.0
+margin_bottom = 83.0
+custom_fonts/font = SubResource( 2 )
+text = "Cube (2 ) hard"
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="CenterContainer/HBoxContainer"]
+margin_left = 197.0
+margin_right = 322.0
+margin_bottom = 141.0
+
+[node name="Tesseract_rule_2" type="Button" parent="CenterContainer/HBoxContainer/VBoxContainer4"]
+margin_right = 125.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 3 )
+text = "Tesseract_Rule_2"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer"]
+margin_left = 326.0
+margin_right = 497.0
+margin_bottom = 141.0
+
+[node name="Tesseract" type="Button" parent="CenterContainer/HBoxContainer/VBoxContainer"]
+margin_right = 171.0
+margin_bottom = 25.0
+custom_fonts/font = SubResource( 2 )
+text = "Tesseract (3) easy"
+
+[node name="Tesseract (3) medium" type="Button" parent="CenterContainer/HBoxContainer/VBoxContainer"]
+margin_top = 29.0
+margin_right = 171.0
+margin_bottom = 54.0
+custom_fonts/font = SubResource( 2 )
+text = "Tesseract (3) medium"
+
+[node name="Tesseract (3) hard" type="Button" parent="CenterContainer/HBoxContainer/VBoxContainer"]
+margin_top = 58.0
+margin_right = 171.0
+margin_bottom = 83.0
+custom_fonts/font = SubResource( 2 )
+text = "Tesseract (3) hard"
+
+[node name="Tesseract (3) superhard" type="Button" parent="CenterContainer/HBoxContainer/VBoxContainer"]
+margin_top = 87.0
+margin_right = 171.0
+margin_bottom = 112.0
+custom_fonts/font = SubResource( 2 )
+text = "Tesseract (3) super hard"
+
+[node name="Tesseract (3) superhard2" type="Button" parent="CenterContainer/HBoxContainer/VBoxContainer"]
+margin_top = 116.0
+margin_right = 171.0
+margin_bottom = 141.0
+custom_fonts/font = SubResource( 2 )
+text = "Tesseract (3) super hard"
+
+[connection signal="pressed" from="CenterContainer/HBoxContainer/VBoxContainer3/2d Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/VBoxContainer2/Cube (2) easy" to="." method="_on_Cube_2_easy_pressed"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/VBoxContainer2/Cube (2) medium" to="." method="_on_Cube_2_medium_pressed"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/VBoxContainer2/Cube (2) hard" to="." method="_on_Cube_2_hard_pressed"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/VBoxContainer4/Tesseract_rule_2" to="." method="_on_Tesseract_rule_2_pressed"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/VBoxContainer/Tesseract" to="." method="_on_Tesseract_3_easy_pressed"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/VBoxContainer/Tesseract (3) medium" to="." method="_on_Tesseract_3_medium_pressed"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/VBoxContainer/Tesseract (3) hard" to="." method="_on_Tesseract_3_hard_pressed"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/VBoxContainer/Tesseract (3) superhard" to="." method="_on_Tesseract_3_superhard_pressed"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/VBoxContainer/Tesseract (3) superhard2" to="." method="_on_Tesseract_3_superhard2_pressed"]

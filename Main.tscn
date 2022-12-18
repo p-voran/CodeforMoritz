@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Menu.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Main.gd" type="Script" id=2]
+
+[node name="Main" type="Node"]
+script = ExtResource( 2 )
+
+[node name="Menu" parent="." instance=ExtResource( 1 )]
+
+[connection signal="cube_2" from="Menu" to="." method="_on_Menu_cube_2"]
+[connection signal="d_thing" from="Menu" to="." method="_on_Menu_d_thing"]
+[connection signal="tesseract_2" from="Menu" to="." method="_on_Menu_tesseract_2"]
+[connection signal="tesseract_3" from="Menu" to="." method="_on_Menu_tesseract_3"]
