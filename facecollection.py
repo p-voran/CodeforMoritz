@@ -19,14 +19,19 @@ def place_hole(configuration, num_holes, last_hole, vertices, stars):
       configuration[i]= '1'
   return vertices, stars
 
-def find_hole_positions(d, num_holes):
-  return  place_hole([1]*(d), num_holes, 0, [], [])
+def find_hole_positions(d, k):
+  '''
+  d-dimension of the cube
+  k-dimension of the wanted faces
+  returns collection of ways to put d-k stars in a d-element vektor
+  '''
+  return  place_hole([1]*(d), d-k, 0, [], [])
 
 
-_, sterne = find_hole_positions(3,1)
+_, sterne = find_hole_positions(5,4)
 print(sterne)
 # calculate d-cube
-d_cube = list(itertools.product([0, 1], repeat=3))
+d_cube = list(itertools.product([0, 1], repeat=5))
 listcube =[]
 for item in d_cube:
   listcube.append(list(item))
