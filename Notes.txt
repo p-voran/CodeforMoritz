@@ -49,3 +49,9 @@ Maximale Tiefe erreicht.
 57657600-element Vector{SVector{7, Int8}}:
 
 Tiefe 15
+
+
+42, 11 tiles unlabeled
+2288 unlabeled configurations.
+Expect:
+45664819200 labeled configurations.
