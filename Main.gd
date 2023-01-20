@@ -10,6 +10,7 @@ func _on_Menu_tesseract_3(starting_configuration, minimum_moves):
 	self.get_child(0).queue_free()
 
 func quit_to_title_handler():
+	print("test")
 	self.get_child(0).queue_free()
 	var new_scene = load("res://Menu.tscn")
 	var menu = new_scene.instance()
@@ -34,7 +35,7 @@ func _on_Menu_d_thing():
 	var new_scene = load("res://2dthing/Main.tscn")
 	var game = new_scene.instance()
 	add_child(game)
-	#game.connect("quit_to_title", self, "quit_to_title_handler")
+	game.connect("quit_to_title", self, "quit_to_title_handler")
 	self.get_child(0).queue_free()
 
 func _on_Menu_tesseract_2(starting_configuration, minimum_moves):

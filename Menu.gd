@@ -37,4 +37,4 @@ func _on_Button_pressed():
 	emit_signal("d_thing")
 
 func _on_Tesseract_rule_2_pressed():
-	emit_signal("tesseract_2", [1,3,2,0,5,0,0,0,4,0,0,0,0,0,0,0], 11)
+	emit_signal("tesseract_2", [1,3,2,0,5,0,0,0,4,0,0,0,0,0,0,0], 9)

@@ -33,6 +33,13 @@ margin_right = 62.0
 margin_bottom = 199.0
 text = "Reset"
 
+[node name="QuitButton" type="Button" parent="."]
+margin_left = 2.0
+margin_top = 270.0
+margin_right = 91.0
+margin_bottom = 323.0
+text = "Quit to Title"
+
 [node name="WinMessage" type="Label" parent="."]
 visible = false
 margin_left = 344.0
@@ -53,4 +60,5 @@ text = "Undo"
 
 [connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="ResetButton" to="." method="_on_ResetButton_pressed"]
+[connection signal="pressed" from="QuitButton" to="." method="_on_QuitButton_pressed"]
 [connection signal="pressed" from="UndoButton" to="." method="_on_UndoButton_pressed"]

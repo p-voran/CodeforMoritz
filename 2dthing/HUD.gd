@@ -3,6 +3,7 @@ extends CanvasLayer
 signal start_game
 signal reset_game
 signal undo_move
+signal quit_to_title()
 
 var movecount = 0
 
@@ -23,3 +24,6 @@ func _on_ResetButton_pressed():
 
 func _on_UndoButton_pressed():
 	emit_signal("undo_move")
+	
+func _on_QuitButton_pressed():
+	emit_signal("quit_to_title")

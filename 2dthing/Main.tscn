@@ -17,6 +17,7 @@ margin_bottom = 3898.0
 rect_scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 3 )
 
+[connection signal="quit_to_title" from="HUD" to="." method="_on_HUD_quit_to_title"]
 [connection signal="reset_game" from="HUD" to="." method="_on_HUD_reset_game"]
 [connection signal="start_game" from="HUD" to="." method="_on_HUD_start_game"]
 [connection signal="undo_move" from="HUD" to="." method="_on_HUD_undo_move"]

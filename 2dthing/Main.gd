@@ -1,5 +1,7 @@
 extends Node
 
+signal quit_to_title()
+
 var facecollection = [[[1, 2, 3], [1, 4, 5], [2, 4, 6]], [[0, 2, 3], [0, 4, 5], [3, 5, 7]], [[0, 1, 3], [3, 6, 7], [0, 4, 6]], [[0, 1, 2], [2, 6, 7], [1, 5, 7]], [[5, 6, 7], [0, 1, 5], [0, 2, 6]], [[4, 6, 7], [0, 1, 4], [1, 3, 7]], [[4, 5, 7], [2, 3, 7], [0, 2, 4]], [[4, 5, 6], [2, 3, 6], [1, 3, 5]]]
 var d_cube = [[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 1, 1], [1, 0, 0], [1, 0, 1], [1, 1, 0], [1, 1, 1]]
 var tilelist = [0,0,0,0]
@@ -167,3 +169,7 @@ func _on_HUD_undo_move():
 	progress_array.pop_back()
 	if progress_array.size() == 1:
 		$HUD/UndoButton.hide()
+
+
+func _on_HUD_quit_to_title():
+	emit_signal("quit_to_title")
