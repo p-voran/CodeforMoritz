@@ -38,8 +38,6 @@ facecollection51 = [[[1], [2], [4], [8], [16]], [[0], [3], [5], [9], [17]], [[3]
 four_cube = [[0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0], [0, 0, 1, 1], [0, 1, 0, 0], [0, 1, 0, 1], [0, 1, 1, 0], [0, 1, 1, 1], [1, 0, 0, 0], [1, 0, 0, 1], [1, 0, 1, 0], [1, 0, 1, 1], [1, 1, 0, 0], [1, 1, 0, 1], [1, 1, 1, 0], [1, 1, 1, 1]]
 five_cube = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 1], [0, 0, 0, 1, 0], [0, 0, 0, 1, 1], [0, 0, 1, 0, 0], [0, 0, 1, 0, 1], [0, 0, 1, 1, 0], [0, 0, 1, 1, 1], [0, 1, 0, 0, 0], [0, 1, 0, 0, 1], [0, 1, 0, 1, 0], [0, 1, 0, 1, 1], [0, 1, 1, 0, 0], [0, 1, 1, 0, 1], [0, 1, 1, 1, 0], [0, 1, 1, 1, 1], [1, 0, 0, 0, 0], [1, 0, 0, 0, 1], [1, 0, 0, 1, 0], [1, 0, 0, 1, 1], [1, 0, 1, 0, 0], [1, 0, 1, 0, 1], [1, 0, 1, 1, 0], [1, 0, 1, 1, 1], [1, 1, 0, 0, 0], [1, 1, 0, 0, 1], [1, 1, 0, 1, 0], [1, 1, 0, 1, 1], [1, 1, 1, 0, 0], [1, 1, 1, 0, 1], [1, 1, 1, 1, 0], [1, 1, 1, 1, 1]]
 
-
-
 function calculateConfigurations(start, facecollection)
     #res is the collection of all configurations in the component
     res::Vector{SVector{6, UInt8}} = copy(start)
@@ -111,7 +109,6 @@ function change_configuration(configuration, label, corner)
     return SVector{3, UInt8}([help_function(i, x, label, corner) for (i,x) in enumerate(configuration)])
 end
 
-
 function help_function(i,x, label, corner)
     if i == label
         return corner
@@ -125,6 +122,9 @@ end
 =#
 
 test = @time calculateConfigurations(sparse_start54, facecollection54)
+
+
+
 
 if SVector{6, UInt8}(1, 0, 2, 4, 8, 16) in test
     write(output_file, "2-Cycle was found!")
