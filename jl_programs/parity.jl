@@ -3,12 +3,10 @@ using Permutations
 
 
 #starting configurations
-start1 =  [[0,0,0,1,0,1,1,1,0,1,1,1,1,1,1,1]]
-start2 = [[0,0,0,1,0,1,1,1,0,1,1,1,1,1,1,0]]
+start42 =  [[0,0,0,1,0,1,1,1,0,1,1,1,1,1,1,1]]
+start42_odd = [[0,0,0,1,0,1,1,1,0,1,1,1,1,1,1,0]]
 
-start3 = [[0,1,1,1,0,0,0,1]]
-start4 = [[0,1,1,1,0,0,0,0]]
-start5 = [[0,1,1,0,0,0,0,0]]
+start32 = [[0,1,1,1,0,0,0,1]]
 
 start52 = [[0,0,0,1,0,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
 start53 = [[0,0,0,0,0,0,0,1,0,0,0,1,0,1,1,1,0,0,0,1,0,1,1,1,0,1,1,1,1,1,1,1]]
@@ -22,7 +20,7 @@ start62 = [[0,0,0,1,0,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,
 #start1 = [[0,0,0,1,0,2,3,4,0,5,6,7,8,9,10,11]]
 
 #number of corners
-const perm_length = 32
+const perm_length = 16
 
 #facecollections
 
@@ -116,7 +114,12 @@ end
 function calculate_edges_and_transpositions(nodes, facecollection, cube)
     edges = []
     transpositions = []
+    counter = 0
     for node in nodes
+        counter = counter + 1
+        if counter % 10000 == 0
+            println(counter)
+        end
         temp_edge = []
         temp_transpositions = []
         #idea if slow might swap order (iterate over every face only once)
@@ -274,6 +277,7 @@ function check_for_odd_perm(start, facecollection, cube)
     println("also done with that")
 end
 
+
 println("52 :")
 check_for_odd_perm(start52, facecollection52, five_cube)
 
@@ -282,3 +286,6 @@ check_for_odd_perm(start53, facecollection53, five_cube)
 
 println("54 :")
 check_for_odd_perm(start54, facecollection54, five_cube)
+
+
+#check_for_odd_perm(start42, facecollection42, four_cube)
