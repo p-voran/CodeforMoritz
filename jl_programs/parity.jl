@@ -260,7 +260,7 @@ end
 
 #be happy.
 
-function check_for_odd_perm(start, facecollection)
+function check_for_odd_perm(start, facecollection, cube)
     test = calculateConfigurations(start, facecollection)
 
     edges1, transpositions1 = calculate_edges_and_transpositions(test, facecollection, cube)
@@ -275,10 +275,10 @@ function check_for_odd_perm(start, facecollection)
 end
 
 println("52 :")
-check_for_odd_perm(start52, facecollection52)
+check_for_odd_perm(start52, facecollection52, five_cube)
 
 println("53 :")
-check_for_odd_perm(start53, facecollection53)
+check_for_odd_perm(start53, facecollection53, five_cube)
 
 println("54 :")
-check_for_odd_perm(start54, facecollection54)
+check_for_odd_perm(start54, facecollection54, five_cube)
