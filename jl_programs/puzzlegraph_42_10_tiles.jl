@@ -38,7 +38,6 @@ end
 
 function set_operations(to_do, res)
     #also makes to_do unique, super important.
-    setdiff!(to_do, previous)
     setdiff!(to_do, res)
     return [res; to_do]
 end
