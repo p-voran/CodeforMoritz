@@ -22,7 +22,7 @@ start62 = [[0,0,0,1,0,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,
 #start1 = [[0,0,0,1,0,2,3,4,0,5,6,7,8,9,10,11]]
 
 #number of corners
-const perm_length = 16
+const perm_length = 32
 
 #facecollections
 
