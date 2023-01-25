@@ -39,6 +39,8 @@ facecollection52 = [[[1, 2, 3], [1, 4, 5], [2, 4, 6], [1, 8, 9], [2, 8, 10], [4,
 #cubes
 four_cube = [[0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0], [0, 0, 1, 1], [0, 1, 0, 0], [0, 1, 0, 1], [0, 1, 1, 0], [0, 1, 1, 1], [1, 0, 0, 0], [1, 0, 0, 1], [1, 0, 1, 0], [1, 0, 1, 1], [1, 1, 0, 0], [1, 1, 0, 1], [1, 1, 1, 0], [1, 1, 1, 1]]
 
+five_cube = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 1], [0, 0, 0, 1, 0], [0, 0, 0, 1, 1], [0, 0, 1, 0, 0], [0, 0, 1, 0, 1], [0, 0, 1, 1, 0], [0, 0, 1, 1, 1], [0, 1, 0, 0, 0], [0, 1, 0, 0, 1], [0, 1, 0, 1, 0], [0, 1, 0, 1, 1], [0, 1, 1, 0, 0], [0, 1, 1, 0, 1], [0, 1, 1, 1, 0], [0, 1, 1, 1, 1], [1, 0, 0, 0, 0], [1, 0, 0, 0, 1], [1, 0, 0, 1, 0], [1, 0, 0, 1, 1], [1, 0, 1, 0, 0], [1, 0, 1, 0, 1], [1, 0, 1, 1, 0], [1, 0, 1, 1, 1], [1, 1, 0, 0, 0], [1, 1, 0, 0, 1], [1, 1, 0, 1, 0], [1, 1, 0, 1, 1], [1, 1, 1, 0, 0], [1, 1, 1, 0, 1], [1, 1, 1, 1, 0], [1, 1, 1, 1, 1]]
+
 #calculate all the nodes in the unlabeled puzzlegraph.
 function calculateConfigurations(start, facecollection)
     #res is the collection of all configurations in the component
@@ -111,7 +113,7 @@ function is_adjacent(corner1, corner2)
     return false
 end
 
-function calculate_edges_and_transpositions(nodes, facecollection)
+function calculate_edges_and_transpositions(nodes, facecollection, cube)
     edges = []
     transpositions = []
     for node in nodes
@@ -125,7 +127,7 @@ function calculate_edges_and_transpositions(nodes, facecollection)
                     if is_k_face_empty(node, k_face)
                         #add the 2**k-1 slides possible on that k_face
                         for corner in k_face
-                            if is_adjacent(four_cube[position], four_cube[corner + 1])
+                            if is_adjacent(cube[position], cube[corner + 1])
                                 push!(temp_edge, indexin([change_configuration(node, label, corner, position)], nodes)[1])
                                 push!(temp_transpositions, Transposition(perm_length ,position, corner + 1))
                             end
@@ -261,7 +263,7 @@ end
 function check_for_odd_perm(start, facecollection)
     test = calculateConfigurations(start, facecollection)
 
-    edges1, transpositions1 = calculate_edges_and_transpositions(test, facecollection)
+    edges1, transpositions1 = calculate_edges_and_transpositions(test, facecollection, cube)
     println("step 1 \n")
 
     spanning_edges_test, spanning_perms_test, parents_test = compute_spanning_tree(edges1, transpositions1)
