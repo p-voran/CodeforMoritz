@@ -8,6 +8,9 @@ import itertools
 #starting configurations
 start1 = [(0,0,0,1,0,2,3,4,0,5,6,7,8,9,10,11)]
 start2 = [(1,2,3,0,4,0,0,0)]
+start3 = [(1,2,3,0,0,0,0,0)]
+start4 = [(1,2,0,0,0,0,0,0)]
+start5 = [(1,0,0,0,0,0,0,0)]
 
 #places holes
 def place_hole(configuration, num_holes, last_hole, vertices, stars):
@@ -89,8 +92,13 @@ def calculateConfigurations(start, d, k):
 
     return res, edges
 
-test, edgedepen = calculateConfigurations(start2,3,2)
+test, edgedepen = calculateConfigurations(start4,3,2)
 g = nx.Graph(edgedepen)
-nx.draw(g)
+print("The diameter is:")
+print(nx.diameter(g))
+
+
+pos = nx.spectral_layout(g)
+pos = nx.kamada_kawai_layout(g)
+nx.draw(g, pos=pos)
 plt.show()
-print(len(test))
