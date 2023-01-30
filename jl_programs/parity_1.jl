@@ -106,6 +106,10 @@ function change_configuration(configuration, label, corner, position)
     return dummy
 end
 
+function change_configuration_alt_1(configuration, label, corner, position)
+    return setindex!(setindex!([x for x in configuration], label, corner+1), 0, position)
+end
+
 #calculate all the edges  and assign corresponding transpositions to them.
 #slides only to adjacent corners to reduce complexity, parity properties stay unchanged.
 
