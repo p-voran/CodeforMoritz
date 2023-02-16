@@ -106,6 +106,6 @@ def is_adjacent(corner1, corner2):
 
 #make the facecollection
 print("The facecollections are:")
-facecollection(5,2)
+facecollection(3,2)
 print("Only adjacents")
-adjacent_facecollection(5,2)
+adjacent_facecollection(3,2)
