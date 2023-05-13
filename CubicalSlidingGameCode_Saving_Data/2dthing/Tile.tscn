@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://2dthing/Tile.gd" type="Script" id=1]
+[ext_resource path="res://2dthing/Art/Circles/CasualGameButtonsVol01/PNG/CGB01-red_S_pillShaped_btn.png" type="Texture" id=2]
+
+[sub_resource type="StyleBoxFlat" id=2]
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxFlat" id=1]
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[node name="Tile" type="Sprite"]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Button" type="Button" parent="."]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = -50.0
+margin_top = -50.0
+margin_right = 50.0
+margin_bottom = 50.0
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 1 )
+text = "PressMe"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
