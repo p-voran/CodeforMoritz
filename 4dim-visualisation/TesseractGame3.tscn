@@ -1,0 +1,105 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Pointer.tscn" type="PackedScene" id=1]
+[ext_resource path="res://TesseractGame3.gd" type="Script" id=2]
+[ext_resource path="res://FaceCollection.gd" type="Script" id=3]
+[ext_resource path="res://Fonts/RobotoCondensed-Bold.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://LineRenderer.tscn" type="PackedScene" id=5]
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=4]
+font_data = ExtResource( 4 )
+
+[sub_resource type="Environment" id=3]
+background_mode = 1
+ambient_light_color = Color( 1, 1, 1, 1 )
+ambient_light_energy = 0.5
+
+[node name="TesseractGame3" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 10, 0, 0 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.866025, -0.211309, 0.453154, 0, 0.906308, 0.422618, -0.5, -0.365998, 0.784886, 0, 0, 0 )
+light_energy = 0.5
+
+[node name="LineRenderer" parent="." instance=ExtResource( 5 )]
+
+[node name="Control" type="Control" parent="."]
+margin_right = 1366.0
+margin_bottom = 768.0
+mouse_filter = 2
+
+[node name="MoveCounter" type="Label" parent="Control"]
+margin_left = 1176.0
+margin_top = 35.0
+margin_right = 1329.0
+margin_bottom = 81.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 2 )
+text = "Moves: 0"
+
+[node name="WinMessage" type="Label" parent="Control"]
+visible = false
+margin_left = 336.0
+margin_top = 502.0
+margin_right = 670.0
+margin_bottom = 596.0
+custom_fonts/font = SubResource( 2 )
+text = "Well done!"
+align = 1
+valign = 1
+
+[node name="UndoButton" type="Button" parent="Control"]
+margin_left = 1176.0
+margin_top = 166.0
+margin_right = 1317.0
+margin_bottom = 234.0
+custom_fonts/font = SubResource( 2 )
+text = "(B) Undo"
+
+[node name="ResetButton" type="Button" parent="Control"]
+margin_left = 1176.0
+margin_top = 81.0
+margin_right = 1317.0
+margin_bottom = 149.0
+custom_fonts/font = SubResource( 2 )
+text = "(X) Reset"
+
+[node name="QuitButton" type="Button" parent="Control"]
+margin_left = 1176.0
+margin_top = 251.0
+margin_right = 1317.0
+margin_bottom = 319.0
+custom_fonts/font = SubResource( 2 )
+text = "(Y) Quit"
+
+[node name="Control Message" type="Label" parent="Control"]
+margin_left = 1176.0
+margin_top = 340.0
+margin_right = 1317.0
+margin_bottom = 513.0
+custom_fonts/font = SubResource( 4 )
+text = "Slide the rings to matching colored corner!
+Make moves with the Mouse or with the (A) Button of your controller.
+Jump the 4th dimesnion with R2/L2
+"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="FaceCollection" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 3 )
+
+[node name="Pointer" parent="." instance=ExtResource( 1 )]
+
+[connection signal="pressed" from="Control/UndoButton" to="." method="_on_UndoButton_pressed"]
+[connection signal="pressed" from="Control/ResetButton" to="." method="_on_ResetButton_pressed"]
+[connection signal="pressed" from="Control/QuitButton" to="." method="_on_QuitButton_pressed"]
